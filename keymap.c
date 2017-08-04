@@ -4,8 +4,8 @@
 #include "version.h"
 
 #define BASE 0 // default layer
-#define FUNC 1 // symbols
-#define MDIA 2 // media keys
+#define LOWR 1 // symbols
+#define RAIS 2 // media keys
 #define REVR 3 // reversed
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -74,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 // FUNCTIONS
-[FUNC] = KEYMAP(
+[LOWR] = KEYMAP(
        // left hand
        KC_TRNS, KC_F1,   KC_F2,  KC_F3,   KC_F4,   KC_F5,   KC_F6,
        KC_TRNS, KC_TRNS, KC_7,   KC_8,    KC_9,    KC_MINS, KC_PLUS,
@@ -116,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 // MEDIA AND MOUSE
-[MDIA] = KEYMAP(
+[RAIS] = KEYMAP(
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS, KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS, KC_MS_L, KC_MS_D, KC_MS_R, KC_TRNS,
@@ -181,8 +181,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 const uint16_t PROGMEM fn_actions[] = {
-    [1] = ACTION_LAYER_TAP_TOGGLE(FUNC),               // FN1 - Momentary Layer 1 (Functions)
-    [2] = ACTION_LAYER_TAP_TOGGLE(MDIA),               // FN2 - Momentary Layer 2 (Media)
+    [1] = ACTION_LAYER_TAP_TOGGLE(LOWR),               // FN1 - Momentary Layer 1 (Functions)
+    [2] = ACTION_LAYER_TAP_TOGGLE(RAIS),               // FN2 - Momentary Layer 2 (Media)
     [3] = ACTION_LAYER_TAP_TOGGLE(REVR)                // FN3 - Momentary Layer 3 (Reversed)
 };
 
