@@ -36,8 +36,11 @@ enum custom_keycodes {
   FUNCT,
   NUMPAD,
   ADJUST,
-  REVR
+  REVR,
+  DYNAMIC_MACRO_RANGE
 };
+
+#include "dynamic_macro.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
@@ -172,9 +175,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * |  F1    |  F2  |  F3  |  F4  |  F5  |  F6  |      |           |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |M C/P |M COPY|MPASTE|      |------|           |------|      |G PULL|      |      |      |        |
+ * |        |      |M C/P |M COPY|MPASTE|      |------|           |------|      |G PULL|DMPLY1|DMREC1|DMSTOP|        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |W C/P |W COPY|WPASTE|      |      |           |      |      |G PUSH|      |      |      |        |
+ * |        |      |W C/P |W COPY|WPASTE|      |      |           |      |      |G PUSH|DMPLY2|DMREC2|      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
@@ -200,8 +203,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        // right hand
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-                KC_TRNS, M(GIT_PULL), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-       KC_TRNS, KC_TRNS, M(GIT_PUSH), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                KC_TRNS, M(GIT_PULL), DYN_MACRO_PLAY1, DYN_REC_START1, DYN_REC_STOP, KC_TRNS,
+       KC_TRNS, KC_TRNS, M(GIT_PUSH), DYN_MACRO_PLAY2, DYN_REC_START2, KC_TRNS, KC_TRNS,
                          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS,
        KC_TRNS,
@@ -430,6 +433,11 @@ void persistent_default_layer_set(uint16_t default_layer) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+  if (!process_record_dynamic_macro(keycode, record)) {
+    return false;
+  }
+
   switch (keycode) {
     case BASE:
       if (record->event.pressed) {
