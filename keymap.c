@@ -9,7 +9,6 @@
 #define _FUNCT 3
 #define _NUMPAD 4
 #define _ADJUST 5
-#define _REVR 6
 
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
@@ -36,7 +35,6 @@ enum custom_keycodes {
   FUNCT,
   NUMPAD,
   ADJUST,
-  REVR,
   DYNAMIC_MACRO_RANGE
 };
 
@@ -293,55 +291,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_TRNS,
        KC_TRNS, KC_TRNS, KC_TRNS
 ),
-/* Keymap 6: Reversed
- *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |   -    |   0  |   9  |   8  |   7  |   6  |  BS  |           | Enter|   5  |   4  |   3  |   2  |   1  |   `    |
- * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |   \    |   P  |   O  |   I  |   U  |   Y  |  =   |           |  [   |   T  |   R  |   E  |   W  |   Q  |  Tab   |
- * |--------+------+------+------+------+------|  +   |           |  {   |------+------+------+------+------+--------|
- * |  Enter |   ;  |   L  |   K  |   J  |   H  |------|           |------|   G  |   F  |   D  |   S  |   A  |  LCTRL |
- * |--------+------+------+------+------+------|  '   |           |  ]   |------+------+------+------+------+--------|
- * |        |   /  |   .  |   ,  |   M  |   N  |  "   |           |  }   |   B  |   V  |   C  |   X  |   Z  |        |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      |      |      |                                       |      |      |      |      |      |
- *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |      |        |
- *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      |      |       |      |        |      |
- *                                 |Enter | Esc  |------|       |------| Back   | Space|
- *                                 |      |      |      |       |      | space  |      |
- *                                 `--------------------'       `----------------------'
- */
-// Reversed
-[_REVR] = KEYMAP(
-        // left hand
-        KC_MINS,        KC_0,           KC_9,    KC_8,     KC_7,   KC_6,   KC_BSPC,
-        KC_BSLS,        KC_P,           KC_O,    KC_I,     KC_U,   KC_Y,   KC_EQL,
-        KC_ENT,         KC_SCLN,        KC_L,    KC_K,     KC_J,   KC_H,
-        KC_TRNS,        KC_SLSH,        KC_DOT,  KC_COMM,  KC_M,   KC_N,   KC_QUOT,
-        KC_TRNS,        KC_TRNS,        KC_TRNS, KC_TRNS,  KC_TRNS,
-                                                     KC_TRNS,  KC_TRNS,
-                                                               KC_TRNS,
-                                               KC_ENT, KC_ESC, KC_TRNS,
-        // right hand
-             KC_ENT,      KC_5,   KC_4,   KC_3,   KC_2,   KC_1,      KC_GRV,
-             KC_LBRC,     KC_T,   KC_R,   KC_E,   KC_W,   KC_Q,      KC_TAB,
-                          KC_G,   KC_F,   KC_D,   KC_S,   KC_A,      KC_LCTL,
-             KC_RBRC,     KC_B,   KC_V,   KC_C,   KC_X,   KC_Z,      KC_TRNS,
-                                  KC_TRNS,  KC_TRNS,KC_TRNS,KC_TRNS, KC_TRNS,
-             KC_TRNS,     KC_TRNS,
-             KC_TRNS,
-             KC_TRNS,     KC_BSPC, KC_SPC
-
-),
 };
 
 const uint16_t PROGMEM fn_actions[] = {
-    [1] = ACTION_LAYER_TAP_TOGGLE(_NUMPAD),               // FN1 - Momentary Layer 1 (Functions)
-    [2] = ACTION_LAYER_TAP_TOGGLE(_ADJUST),               // FN2 - Momentary Layer 2 (Media)
-    [3] = ACTION_LAYER_TAP_TOGGLE(_REVR)                // FN3 - Momentary Layer 3 (Reversed)
+    [1] = ACTION_LAYER_TAP_TOGGLE(_FUNCT),
+    [2] = ACTION_LAYER_TAP_TOGGLE(_NUMPAD),
+    [3] = ACTION_LAYER_TAP_TOGGLE(_ADJUST),
 };
 
 static uint16_t start;
@@ -416,10 +371,10 @@ void matrix_scan_user(void) {
             ergodox_right_led_2_on();
             ergodox_right_led_3_on();
             break;
-        case _REVR:
-            ergodox_right_led_1_on();
-            ergodox_right_led_3_on();
-            break;
+//        case _REVR:
+//            ergodox_right_led_1_on();
+//            ergodox_right_led_3_on();
+//            break;
         default:
             // none
             break;
@@ -482,14 +437,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_on(_ADJUST);
       } else {
         layer_off(_ADJUST);
-      }
-      return false;
-      break;
-    case REVR:
-      if (record->event.pressed) {
-        layer_on(_REVR);
-      } else {
-        layer_off(_REVR);
       }
       return false;
       break;
