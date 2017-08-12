@@ -22,6 +22,11 @@
 #define MACCOPY ACTION_MODS_KEY(MOD_LGUI, KC_C)
 #define MACPASTE ACTION_MODS_KEY(MOD_LGUI, KC_V)
 
+#define SPTLGHT (KC_SPC | QK_LGUI)
+#define MISSIONCTL (KC_UP | QK_LCTL)
+#define NEXTAPP (KC_TAB | QK_LGUI)
+#define PREVAPP (KC_TAB | QK_LGUI | QK_LSFT)
+
 // macros
 #define MAC_COPY_PASTE 0
 #define WIN_COPY_PASTE 1
@@ -46,16 +51,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * | `      |   1  |   2  |   3  |   4  |   5  |PRVWKS|           |NXTWKS|   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |   Q  |   W  |   E  |   R  |   T  |   {  |           |  +   |   Y  |   U  |   I  |   O  |   P  |   \    |
- * |--------+------+------+------+------+------|   [  |           |  =   |------+------+------+------+------+--------|
+ * | Tab    |   Q  |   W  |   E  |   R  |   T  | SPOT |           |MISSIO|   Y  |   U  |   I  |   O  |   P  |   \    |
+ * |--------+------+------+------+------+------| LIGHT|           |NCTRL |------+------+------+------+------+--------|
  * | LCTRL  |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  |   "    |
- * |--------+------+------+------+------+------|   }  |           |  "   |------+------+------+------+------+--------|
- * |Shift/[ |Rais/Z|   X  |   C  |   V  |   B  |   ]  |           |  '   |   N  |   M  |   ,  |   .  |Lowr//|Shift/] |
+ * |--------+------+------+------+------+------| PREV |           | NEXT |------+------+------+------+------+--------|
+ * |Shift/[ |Rais/Z|   X  |   C  |   V  |   B  | APP  |           | APP  |   N  |   M  |   ,  |   .  |Lowr//|Shift/] |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |ADJUST| FUNC | Alt  | Cmd  | Del  |                                       |  BS  |   (  |   )  | FUNC |NUMPAD|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        | Tab  | L3   |       | L3   |  Tab |
+ *                                        | Tab  |PRVTAB|       |NXTTAB|  Tab |
  *                                 ,------|------|------|       |------+------|------.
  *                                 |      |Lower/| LCTRL|       | RCTRL|Raise/|      |
  *                                 | Space|Backsp|------|       |------|  ESC |Enter |
@@ -67,20 +72,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_BASE] = KEYMAP(  // layer 0 : default
         // left hand
         KC_GRV,      KC_1,     KC_2,     KC_3,   KC_4,   KC_5,   PREVWKS,
-        KC_TAB,      KC_Q,     KC_W,     KC_E,   KC_R,   KC_T,   KC_LBRC,
+        KC_TAB,      KC_Q,     KC_W,     KC_E,   KC_R,   KC_T,   SPTLGHT,
         KC_LCTL,     KC_A,     KC_S,     KC_D,   KC_F,   KC_G,
-        SFT_T(KC_LBRC), LT(_RAIS, KC_Z), KC_X,   KC_C,   KC_V,   KC_B,   KC_RBRC,
-        KC_FN2,      FUNCT,    KC_LALT,  KC_LGUI,KC_DEL,
-                                                       KC_TAB,  KC_FN3,
+        SFT_T(KC_LBRC), LT(_RAIS, KC_Z), KC_X,   KC_C,   KC_V,   KC_B,   PREVAPP,
+        KC_FN3,      KC_FN1,   KC_LALT,  KC_LGUI,KC_DEL,
+                                                       KC_TAB,  PREVTAB,
                                                                 KC_LCTL,
                                                KC_SPC, LT(_LOWR, KC_BSPC), KC_LGUI,
         // right hand
              NEXTWKS,     KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
-             KC_EQL,      KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
+             MISSIONCTL, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
                           KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-             KC_QUOT,     KC_N,   KC_M,    KC_COMM, KC_DOT,  LT(_LOWR, KC_SLSH), SFT_T(KC_RBRC),
-                                  KC_BSPC, KC_LPRN, KC_RPRN, FUNCT, KC_FN1,
-             KC_FN3,  KC_TAB,
+             NEXTAPP, KC_N,   KC_M,    KC_COMM, KC_DOT,  LT(_LOWR, KC_SLSH), SFT_T(KC_RBRC),
+                                  KC_BSPC, KC_LPRN, KC_RPRN, KC_FN1, KC_FN2,
+             NEXTTAB,  KC_TAB,
              KC_RCTL,
              KC_RGUI, LT(_RAIS, KC_ESC), KC_ENT
     ),
