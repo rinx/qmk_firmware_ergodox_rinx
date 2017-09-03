@@ -21,17 +21,14 @@
 #define WINPASTE ACTION_MODS_KEY(MOD_LCTL, KC_V)
 #define MACCOPY ACTION_MODS_KEY(MOD_LGUI, KC_C)
 #define MACPASTE ACTION_MODS_KEY(MOD_LGUI, KC_V)
-
-#define SPTLGHT (KC_SPC | QK_LGUI)
-#define MISSIONCTL (KC_UP | QK_LCTL)
-#define NEXTAPP (KC_TAB | QK_LGUI)
-#define PREVAPP (KC_TAB | QK_LGUI | QK_LSFT)
+#define SPTLGHT ACTION_MODS_KEY(MOD_LGUI, KC_SPC)
+#define MISSIONCTL ACTION_MODS_KEY(MOD_LCTL, KC_UP)
+#define NEXTAPP ACTION_MODS_KEY(MOD_LGUI, KC_TAB)
+#define PREVAPP ACTION_MODS_KEY(MOD_LGUI | MOD_LSFT, KC_TAB)
 
 // macros
 #define MAC_COPY_PASTE 0
 #define WIN_COPY_PASTE 1
-#define GIT_PULL 2
-#define GIT_PUSH 3
 
 enum custom_keycodes {
   BASE = SAFE_RANGE,
@@ -49,15 +46,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | `      |   1  |   2  |   3  |   4  |   5  |PRVWKS|           |NXTWKS|   6  |   7  |   8  |   9  |   0  |   -    |
+ * |M CP/PST|   1  |   2  |   3  |   4  |   5  |DMPLY1|           |DMPLY2|   6  |   7  |   8  |   9  |   0  |DM STOP |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   Q  |   W  |   E  |   R  |   T  | SPOT |           |MISSIO|   Y  |   U  |   I  |   O  |   P  |   \    |
  * |--------+------+------+------+------+------| LIGHT|           |NCTRL |------+------+------+------+------+--------|
- * | LCTRL  |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  |   "    |
+ * |Esc/Ctrl|   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  | "/Ctrl |
  * |--------+------+------+------+------+------| PREV |           | NEXT |------+------+------+------+------+--------|
- * |Shift/[ |Rais/Z|   X  |   C  |   V  |   B  | APP  |           | APP  |   N  |   M  |   ,  |   .  |Lowr//|Shift/] |
+ * |Shift/[ |Rais/Z|   X  |   C  |   V  |   B  | WKS  |           | WKS  |   N  |   M  |   ,  |   .  |Lowr//|Shift/] |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |ADJUST| FUNC | Alt  | Cmd  | Del  |                                       |  BS  |   (  |   )  | FUNC |NUMPAD|
+ *   |      | Left |      |      |      |                                       |      |      |      | Right|      |
+ *   |ADJUST| FUNC | Alt  | Cmd  | Down |                                       |  Up  |   (  |   )  | FUNC |NUMPAD|
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        | Tab  |PRVTAB|       |NXTTAB|  Tab |
@@ -71,20 +69,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [_BASE] = KEYMAP(  // layer 0 : default
         // left hand
-        KC_GRV,      KC_1,     KC_2,     KC_3,   KC_4,   KC_5,   PREVWKS,
+        M(MAC_COPY_PASTE), KC_1, KC_2,   KC_3,   KC_4,   KC_5,   DYN_MACRO_PLAY1,
         KC_TAB,      KC_Q,     KC_W,     KC_E,   KC_R,   KC_T,   SPTLGHT,
-        KC_LCTL,     KC_A,     KC_S,     KC_D,   KC_F,   KC_G,
-        SFT_T(KC_LBRC), LT(_RAIS, KC_Z), KC_X,   KC_C,   KC_V,   KC_B,   PREVAPP,
-        KC_FN3,      KC_FN1,   KC_LALT,  KC_LGUI,KC_DEL,
+        CTL_T(KC_ESC),     KC_A,     KC_S,     KC_D,   KC_F,   KC_G,
+        SFT_T(KC_LBRC), LT(_RAIS, KC_Z), KC_X,   KC_C,   KC_V,   KC_B,   PREVWKS,
+        TT(_ADJUST),    LT(_FUNCT, KC_LEFT),   KC_LALT,  KC_LGUI,KC_DOWN,
                                                        KC_TAB,  PREVTAB,
                                                                 KC_LCTL,
                                                KC_SPC, LT(_LOWR, KC_BSPC), KC_LGUI,
         // right hand
-             NEXTWKS,     KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
+             DYN_MACRO_PLAY2, KC_6, KC_7, KC_8,    KC_9,    KC_0,    DYN_REC_STOP,
              MISSIONCTL, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
-                          KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-             NEXTAPP, KC_N,   KC_M,    KC_COMM, KC_DOT,  LT(_LOWR, KC_SLSH), SFT_T(KC_RBRC),
-                                  KC_BSPC, KC_LPRN, KC_RPRN, KC_FN1, KC_FN2,
+                         KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, CTL_T(KC_QUOT),
+             NEXTWKS, KC_N,   KC_M,    KC_COMM, KC_DOT,  LT(_LOWR, KC_SLSH), SFT_T(KC_RBRC),
+                              KC_UP,   KC_LPRN, KC_RPRN, LT(_FUNCT, KC_RGHT), TT(_NUMPAD),
              NEXTTAB,  KC_TAB,
              KC_RCTL,
              KC_RGUI, LT(_RAIS, KC_ESC), KC_ENT
@@ -174,13 +172,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 3: Function Layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |        |      |      |      |      |      |DMREC1|           |DMREC2|      |      |      |      |      |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * |  F1    |  F2  |  F3  |  F4  |  F5  |  F6  |      |           |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |M C/P |M COPY|MPASTE|      |------|           |------|      |G PULL|DMPLY1|DMREC1|DMSTOP|        |
+ * |        |      |M C/P |M COPY|MPASTE|      |------|           |------|      |      |DMPLY1|DMREC1|DMSTOP|        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |W C/P |W COPY|WPASTE|      |      |           |      |      |G PUSH|DMPLY2|DMREC2|      |        |
+ * |        |      |W C/P |W COPY|WPASTE|      |      |           |      |      |      |DMPLY2|DMREC2|      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
@@ -195,7 +193,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // FUNCTIONS
 [_FUNCT] = KEYMAP(
        // left hand
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, DYN_REC_START1,
        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_TRNS,
        KC_TRNS, KC_TRNS, M(MAC_COPY_PASTE), MACCOPY, MACPASTE, KC_TRNS,
        KC_TRNS, KC_TRNS, M(WIN_COPY_PASTE), WINCOPY, WINPASTE, KC_TRNS, KC_TRNS,
@@ -204,10 +202,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                KC_TRNS,
                                KC_TRNS,KC_TRNS,KC_TRNS,
        // right hand
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       DYN_REC_START2, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-                KC_TRNS, M(GIT_PULL), DYN_MACRO_PLAY1, DYN_REC_START1, DYN_REC_STOP, KC_TRNS,
-       KC_TRNS, KC_TRNS, M(GIT_PUSH), DYN_MACRO_PLAY2, DYN_REC_START2, KC_TRNS, KC_TRNS,
+                KC_TRNS, KC_TRNS, DYN_MACRO_PLAY1, DYN_REC_START1, DYN_REC_STOP, KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS, DYN_MACRO_PLAY2, DYN_REC_START2, KC_TRNS, KC_TRNS,
                          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS,
        KC_TRNS,
@@ -260,9 +258,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |      |      | MsUp |      |      |      |           |      |      |      |      |      |      |        |
+ * |        |      | WhDn | MsUp | WhUp |      |      |           |      |      | WhDn | MsUp | WhUp |      |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |MsLeft|MsDown|MsRght|      |------|           |------| Left | Down |  Up  | Right|      |        |
+ * |        |      |MsLeft|MsDown|MsRght|      |------|           |------|      |MsLeft|MsDown|MsRght|      |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |        |      |WhClk | WhUp |WhClk |      |      |           |      |      | Play | Prev | Next |      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -272,14 +270,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        |      |MsAcl2|       |      | RESET|
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      |MsAcl1|       |      |      |      |
- *                                 | Lclk | Rclk |------|       |------|      |      |
+ *                                 | Lclk | Rclk |------|       |------| Lclk | Rclk |
  *                                 |      |      |MsAcl0|       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
 // MEDIA AND MOUSE
 [_ADJUST] = KEYMAP(
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_WH_D, KC_MS_U, KC_WH_U, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS, KC_MS_L, KC_MS_D, KC_MS_R, KC_TRNS,
        KC_TRNS, KC_TRNS, KC_BTN3, KC_WH_U, KC_BTN3, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS, KC_WH_L, KC_WH_D, KC_WH_R,
@@ -288,13 +286,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   KC_BTN1, KC_BTN2, KC_ACL0,
     // right hand
        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-       KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                 KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_TRNS, KC_TRNS,
+       KC_TRNS,  KC_TRNS, KC_WH_D, KC_MS_U, KC_WH_U, KC_TRNS, KC_TRNS,
+                 KC_TRNS, KC_MS_L, KC_MS_D, KC_MS_R, KC_TRNS, KC_TRNS,
        KC_TRNS,  KC_TRNS, KC_MPLY, KC_MPRV, KC_MNXT, KC_TRNS, KC_TRNS,
                           KC_VOLU, KC_VOLD, KC_MUTE, KC_TRNS, KC_TRNS,
        KC_TRNS, RESET,
        KC_TRNS,
-       KC_TRNS, KC_TRNS, KC_TRNS
+       KC_TRNS, KC_BTN1, KC_BTN2
 ),
 };
 
@@ -328,16 +326,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
                     return MACRO(D(LCTL), T(V), U(LCTL), END);
             }
             break;
-        case GIT_PULL:
-            if (record->event.pressed) {
-                SEND_STRING ("git pull");
-            }
-            break;
-        case GIT_PUSH:
-            if (record->event.pressed) {
-                SEND_STRING ("git push");
-            }
-            break;
     }
     return MACRO_NONE;
 
@@ -358,7 +346,6 @@ void matrix_scan_user(void) {
     ergodox_right_led_2_off();
     ergodox_right_led_3_off();
     switch (layer) {
-      // TODO: Make this relevant to the ErgoDox EZ.
         case _LOWR:
             ergodox_right_led_1_on();
             break;
@@ -376,12 +363,7 @@ void matrix_scan_user(void) {
             ergodox_right_led_2_on();
             ergodox_right_led_3_on();
             break;
-//        case _REVR:
-//            ergodox_right_led_1_on();
-//            ergodox_right_led_3_on();
-//            break;
         default:
-            // none
             break;
     }
 
