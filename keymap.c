@@ -27,8 +27,9 @@
 #define PREVAPP ACTION_MODS_KEY(MOD_LGUI | MOD_LSFT, KC_TAB)
 
 // macros
-#define MAC_COPY_PASTE 0
-#define WIN_COPY_PASTE 1
+#define SEND_KEYMAP_URI 0
+#define MAC_COPY_PASTE 1
+#define WIN_COPY_PASTE 2
 
 enum custom_keycodes {
   BASE = SAFE_RANGE,
@@ -176,7 +177,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * |  F1    |  F2  |  F3  |  F4  |  F5  |  F6  |      |           |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |M C/P |M COPY|MPASTE|      |------|           |------|      |DMPLY1|DMREC1|DMSTOP|      |        |
+ * |        |      |M C/P |M COPY|MPASTE|      |------|           |------| URL  |DMPLY1|DMREC1|DMSTOP|      |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |        |      |W C/P |W COPY|WPASTE|      |      |           |      |      |DMPLY2|DMREC2|      |      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -204,7 +205,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        // right hand
        DYN_REC_START2, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-                KC_TRNS, DYN_MACRO_PLAY1, DYN_REC_START1, DYN_REC_STOP, KC_TRNS, KC_TRNS,
+                M(SEND_KEYMAP_URI), DYN_MACRO_PLAY1, DYN_REC_START1, DYN_REC_STOP, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS, DYN_MACRO_PLAY2, DYN_REC_START2, KC_TRNS, KC_TRNS, KC_TRNS,
                          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS,
@@ -306,6 +307,11 @@ static uint16_t start;
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
     switch(id) {
+        case SEND_KEYMAP_URI:
+            if (record->event.pressed) {
+                SEND_STRING("https://github.com/rinx/qmk_firmware_ergodox_rinx/blob/master/keymap.c");
+            }
+            break;
         case MAC_COPY_PASTE:
             if (record->event.pressed) {
                 start = timer_read();
