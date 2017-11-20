@@ -1,4 +1,4 @@
-#include "ergodox.h"
+#include QMK_KEYBOARD_H
 #include "debug.h"
 #include "action_layer.h"
 #include "version.h"
@@ -26,6 +26,18 @@
 #define NEXTAPP ACTION_MODS_KEY(MOD_LGUI, KC_TAB)
 #define PREVAPP ACTION_MODS_KEY(MOD_LGUI | MOD_LSFT, KC_TAB)
 
+#define IDEA_O ACTION_MODS_KEY(MOD_LGUI | MOD_LSFT, KC_O)
+#define IDEA_F ACTION_MODS_KEY(MOD_LGUI | MOD_LSFT, KC_F)
+#define IDEA_R ACTION_MODS_KEY(MOD_LGUI | MOD_LSFT, KC_R)
+#define IDEA_A ACTION_MODS_KEY(MOD_LGUI | MOD_LSFT, KC_A)
+#define IDEA_BARF_BACK ACTION_MODS_KEY(MOD_LGUI |MOD_LCTL, KC_K)
+#define IDEA_BARF_FORW ACTION_MODS_KEY(MOD_LGUI |MOD_LSFT, KC_J)
+#define IDEA_SLURP_BACK ACTION_MODS_KEY(MOD_LGUI |MOD_LCTL, KC_J)
+#define IDEA_SLURP_FORW ACTION_MODS_KEY(MOD_LGUI |MOD_LSFT, KC_K)
+#define IDEA_CURSV_EVAL ACTION_MODS_KEY(MOD_LCTL |MOD_LSFT, KC_E)
+#define IDEA_CURSV_LOAD ACTION_MODS_KEY(MOD_LCTL |MOD_LSFT, KC_M)
+#define IDEA_CURSV_CHNS ACTION_MODS_KEY(MOD_LCTL |MOD_LSFT, KC_N)
+
 // macros
 #define SEND_KEYMAP_URI 0
 #define MAC_COPY_PASTE 1
@@ -47,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |M CP/PST|   1  |   2  |   3  |   4  |   5  |DMPLY1|           |DMPLY2|   6  |   7  |   8  |   9  |   0  |DM STOP |
+ * |M CP/PST|Cm+S+A|Cm+S+O|Cm+S+F|Cm+S+R|Ct+S+E|DMPLY1|           |DMPLY2|SLURPB|SLURPF|CRSV L|BARF B|BARF F|DM STOP |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   Q  |   W  |   E  |   R  |   T  | SPOT |           |MISSIO|   Y  |   U  |   I  |   O  |   P  |   \    |
  * |--------+------+------+------+------+------| LIGHT|           |NCTRL |------+------+------+------+------+--------|
@@ -70,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [_BASE] = KEYMAP(  // layer 0 : default
         // left hand
-        M(MAC_COPY_PASTE), KC_1, KC_2,   KC_3,   KC_4,   KC_5,   DYN_MACRO_PLAY1,
+        M(MAC_COPY_PASTE), IDEA_A, IDEA_O,   IDEA_F,   IDEA_R,   IDEA_CURSV_EVAL,   DYN_MACRO_PLAY1,
         KC_TAB,      KC_Q,     KC_W,     KC_E,   KC_R,   KC_T,   SPTLGHT,
         KC_LCTL,     KC_A,     KC_S,     KC_D,   KC_F,   KC_G,
         SFT_T(KC_LBRC), LT(_RAIS, KC_Z), KC_X,   KC_C,   KC_V,   KC_B,   PREVWKS,
@@ -79,7 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                 KC_LCTL,
                                                KC_SPC, LT(_LOWR, KC_BSPC), KC_LGUI,
         // right hand
-             DYN_MACRO_PLAY2, KC_6, KC_7, KC_8,    KC_9,    KC_0,    DYN_REC_STOP,
+             DYN_MACRO_PLAY2, IDEA_SLURP_BACK, IDEA_SLURP_FORW, IDEA_CURSV_LOAD, IDEA_BARF_BACK, IDEA_BARF_FORW, DYN_REC_STOP,
              MISSIONCTL, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
                          KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, CTL_T(KC_QUOT),
              NEXTWKS, KC_N,   KC_M,    KC_COMM, KC_DOT,  LT(_LOWR, KC_SLSH), SFT_T(KC_RBRC),
